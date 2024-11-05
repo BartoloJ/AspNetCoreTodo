@@ -29,7 +29,7 @@ namespace AspNetCoreTodo.Services
 
             var item4 = new TodoItem
             {
-                Title = "Build awesome apps",
+                Title = "Test",
                 DueAt = DateTimeOffset.Now.AddDays(5)
             };
 
