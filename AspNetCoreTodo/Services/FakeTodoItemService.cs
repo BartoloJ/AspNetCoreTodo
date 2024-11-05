@@ -21,7 +21,23 @@ namespace AspNetCoreTodo.Services
                 DueAt = DateTimeOffset.Now.AddDays(2)
             };
 
-            return Task.FromResult(new[] { item1, item2 });
+            var item3 = new TodoItem
+            {
+                Title = "Build awesome apps",
+                DueAt = DateTimeOffset.Now.AddDays(0.5)
+            };
+
+            var item4 = new TodoItem
+            {
+                Title = "Build awesome apps",
+                DueAt = DateTimeOffset.Now.AddDays(5)
+            };
+
+            var items = new[] { item1, item2, item3, item4 }
+                .OrderBy(item => item.DueAt)
+                .ToArray();
+
+            return Task.FromResult(items);
         }
     }
 }
