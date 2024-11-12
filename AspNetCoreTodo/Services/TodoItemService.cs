@@ -19,15 +19,15 @@ namespace AspNetCoreTodo.Services
             IdentityUser user)
         {
             return await _context.Items
-                .Where(x => x.IsDone == false)
+                .Where(x => x.IsDone == false && x.UserId == user.Id)
                 .ToArrayAsync();
         }
 
-        public async Task<bool> AddItemAsync(TodoItem newItem)
+        public async Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user)
         {
             newItem.Id = Guid.NewGuid();
             newItem.IsDone = false;
-
+            newItem.UserId = user.Id;
 
 
 
@@ -37,11 +37,11 @@ namespace AspNetCoreTodo.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> MarkDoneAsync(Guid id)
+        public async Task<bool> MarkDoneAsync(Guid id, IdentityUser user)
         {
             var item = await _context.Items
-            .Where(x => x.Id == id)
-            .SingleOrDefaultAsync();
+                .Where(x => x.Id == id && x.UserId == user.Id)
+                .SingleOrDefaultAsync();
 
             if (item == null) return false;
 

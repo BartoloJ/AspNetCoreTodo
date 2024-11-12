@@ -8,11 +8,11 @@ namespace AspNetCoreTodo.Services
 {
     public interface ITodoItemService
     {
-        Task<bool> AddItemAsync(TodoItem newItem);
+        Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user);
         Task<TodoItem[]> GetIncompleteItemsAsync(IdentityUser user);
             
 
-        Task<bool> MarkDoneAsync(Guid id);
+        Task<bool> MarkDoneAsync(Guid id, IdentityUser user);
     
     }
     
