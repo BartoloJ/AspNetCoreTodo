@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreTodo.Data;
 using AspNetCoreTodo.Services;
+using Microsoft.Extensions.DependencyInjection;
+using AspNetCoreTodo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,5 +43,24 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
+InitializeDatabase(app);
 app.Run();
+
+void InitializeDatabase(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+
+        try
+        {
+            SeedData.InitializeAsync(services).Wait();
+        }
+        catch (Exception ex)
+        {
+            var logger = services
+                .GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error occurred seeding the DB.");
+        }
+    }
+}
