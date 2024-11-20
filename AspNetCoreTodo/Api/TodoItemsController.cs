@@ -103,11 +103,10 @@ public class TodoItemsController : ControllerBase
     {
 
         //  todo: implement _todoItemService.Delete
-
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
             return Challenge();
-
+        var result = await _todoItemService.DeleteAsync(id, user);
         return StatusCode((int)HttpStatusCode.NotImplemented);
     }
 }

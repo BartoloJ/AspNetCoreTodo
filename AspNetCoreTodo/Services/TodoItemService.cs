@@ -50,5 +50,21 @@ namespace AspNetCoreTodo.Services
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1; // One entity should have been updated
         }
+
+        public async Task<bool> DeleteAsync(Guid id, IdentityUser user)
+        {
+            var item = await _context.Items.FindAsync(id);
+            if (item != null)
+            {
+                _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
+
+            }
+            else
+            {
+                throw new Exception($"No  item found with the id {id}");
+            }
+            throw new NotImplementedException();
+        }
     }
 }
